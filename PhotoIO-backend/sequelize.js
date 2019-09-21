@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const UsersModel = require('./models/usersModel');
-
+var passport = require('passport');
 
 
 const sequelize = new Sequelize('PhotoIO', 'root', '', {
@@ -10,8 +10,8 @@ const sequelize = new Sequelize('PhotoIO', 'root', '', {
     logging: false
 });
 
-const User = UsersModel(sequelize, Sequelize);
-
+//const User = UsersModel(sequelize, Sequelize);
+require('config/passport/passport.js')(passport, UsersModel);
 sequelize.sync({ force: true });
 
-module.exports.user = User;
+module.exports.usr = User;

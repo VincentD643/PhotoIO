@@ -34,4 +34,4 @@ var UsersController = {
     }
 }
 
-module.exports = OrganismeController
+module.exports = UsersController
