@@ -9,7 +9,7 @@ export const mapStateToProps = state => {
     return { org: state.org.organismeChoosen  } //wtf is that
 }
 
-export class AuthDialog extends  Component {
+export class SignUpDialog extends  Component {
 
     handleSubmit = (payload) => {
         this.props.signUp(this.props.user, payload).then(() => {
@@ -31,4 +31,4 @@ export class AuthDialog extends  Component {
     }
 }
 
-export default connect(mapStateToProps, { signUp })(withSnackbar(AuthDialog))
+export default connect(mapStateToProps, { signUp })(withSnackbar(SignUpDialog))
