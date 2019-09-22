@@ -1,10 +1,10 @@
 var exports = module.exports = {}
-var m = require('../sequelize');
+
 //const User = m.user;
 
 var authController = {
     SignUp: (req, res) => {
-        return null
+        return "fuckoff";
     },
     SignIn: (req, res) => {
        return null

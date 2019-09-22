@@ -21,6 +21,7 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
+    "cors": "^2.8.5",
     "mysql2": "^1.7.0",
     "nodemon": "^1.19.2",
     "sequelize": "^5.19.0"

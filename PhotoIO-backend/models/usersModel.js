@@ -6,11 +6,11 @@ const UserDAO = (sequelize, type) => {
             autoIncrement: true
         },
         firstname: type.STRING,
-        lastname: type.String,
+        lastname: type.STRING,
         username: type.TEXT,
         about: type.TEXT,
         password: {
-            type: type.String,
+            type: type.STRING,
             allowNull: false
         },
         mail: {
