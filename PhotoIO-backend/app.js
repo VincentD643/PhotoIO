@@ -1,18 +1,39 @@
-const express = require('express')
-const cors = require('cors')
-const bodyParser = require('body-parser')
-var usersRouter = require('./routes/usersRoute')
+var express = require('express');
+var cors = require('cors');
+var bodyParser = require('body-parser');
+var logger = require('morgan');
+var passport = require('passport');
+const app = express();
 
+const API_PORT = process.env.API_PORT || 5000;
 
-const app = express()
+require('./config/passport/passport');
+const whitelist = [
+    'http://localhost:3001',
+    'http://localhost:3000',
+    'http://localhost:3003',
+];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors());
+app.use(logger('dev'));
+app.use(passport.initialize());
 
-app.use('/user/', usersRouter);
+require('./routes/loginUser')(app);
+require('./routes/registerUser')(app);
+require('./routes/findUsers')(app);
 
-var server = app.listen(5000, function () {
-  console.log('Listening on port 5000')
-});
+app.listen(API_PORT, () => console.log('running'));
 
-module.exports = server;
+module.exports = app;

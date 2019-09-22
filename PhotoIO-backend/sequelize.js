@@ -3,7 +3,7 @@ const UsersModel = require('./models/usersModel');
 
 
 
-const sequelize = new Sequelize('PhotoIO', 'root', '', {
+const sequelize = new Sequelize('PhotoIO', 'root', 'root', {
     host: 'localhost',
     dialect: 'mysql',
     operatorsAliases: false,
@@ -14,4 +14,4 @@ const User = UsersModel(sequelize, Sequelize);
 
 sequelize.sync({ force: true });
 
-module.exports.user = User;
+module.exports = User;

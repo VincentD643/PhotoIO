@@ -8,6 +8,7 @@
 
 /PhotoIO-backend/node_modules
 /PhotoIO-frontend/node_modules
+/PhotoIO/backend/.env
 # User-specific stuff
 .idea/
 .idea/**/workspace.xml
