@@ -1,61 +1,39 @@
-var express    = require('express')
-var app        = express()
-var passport   = require('passport')
-var session    = require('express-session')
-var bodyParser = require('body-parser')
-var env        = require('dotenv').config()
-var exphbs     = require('express-handlebars')
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('log210', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql',
-  operatorsAliases: false,
-  logging: false
-});
+var express = require('express');
+var cors = require('cors');
+var bodyParser = require('body-parser');
+var logger = require('morgan');
+var passport = require('passport');
+const app = express();
 
+const API_PORT = process.env.API_PORT || 5000;
 
-//For BodyParser
-app.use(bodyParser.urlencoded({ extended: true }));
+require('./config/passport/passport');
+const whitelist = [
+    'http://localhost:3001',
+    'http://localhost:3000',
+    'http://localhost:3003',
+];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-
-
-// For Passport
-app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
+app.use(logger('dev'));
 app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
 
+require('./routes/loginUser')(app);
+require('./routes/registerUser')(app);
+require('./routes/findUsers')(app);
 
-app.get('/', function(req, res){
-  res.send('Welcome to Passport with Sequelize');
-});
+app.listen(API_PORT, () => console.log('running'));
 
-
-//Models
-//var models = require("./models/");
-var userModel = require('./models/usersModel');
-
-
-//Routes
-var authRoute = require('./routes/auth.js');
-
-
-//load passport strategies
-require('./config/passport/passport.js')(passport,userModel);
-app.use('/auth', authRoute);
-
-//Sync Database
-const User = userModel(sequelize,Sequelize);
-sequelize.sync({force: true});
-
-
-app.set('port', 5000);
-var server = app.listen(app.get('port'), function(){
-  console.log("ALLLOO");
-})
-
-module.exports = server;
-module.exports.usr = User;
-
-
-
-    
+module.exports = app;
