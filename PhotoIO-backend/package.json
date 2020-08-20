@@ -20,7 +20,7 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "morgan": "^1.9.1",
     "mysql2": "^1.7.0",
